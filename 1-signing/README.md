@@ -21,15 +21,17 @@ gpg --export-secret-keys -a "email-address-you-used" > private.key
 
 4. Upload both files as a **project** secret on Semaphore
 
-- Path: `/root/public.key`
-- Path: `/root/private.key`
+- Path: `/home/semaphore/public.key`
+- Path: `/home/semaphore/private.key`
 
 5. To import them in your CI job use:
 
   ```bash
-  gpg --import /root/public.key
-  gpg --import /root/private.key
+  gpg --import /home/semaphore/public.key
+  gpg --import /home/semaphore/private.key
   ```
+
+home/semaphore
 
 6. To generate a signature for the artifact (remember to store the signature as an artifact):
 
