@@ -61,9 +61,9 @@ blocks:
       jobs:
         - name: Check for vulnerabilities
           commands:
-            - checkout
             - cd 3-dependency-scanning
-            - pip install -r requirements.txt
+            - sudo apt-get update -y && sudo apt-get install -y python3.12-venv
+            - python3 -m venv venv
+            - source venv/bin/activate
             - pip install pip-audit
-            - 'export PATH=$PATH:/home/semaphore/.local/bin'
             - pip-audit -r requirements.txt
