@@ -15,7 +15,7 @@ auto_cancel:
 blocks:
   - name: "\U0001F680 Deploy"
     dependencies:
-      - Generate SBOM
+      - Run dependency scanning
     task:
       secrets:
         - name: Rusic_private.key
@@ -27,11 +27,11 @@ blocks:
             - echo "Updating container service..."
             - echo "Rolling out new containers..."
             - echo "Deployment completed successfully!"
-  - name: Signing
+  - name: Code Signing
     dependencies: []
     task:
       jobs:
-        - name: 1-signing
+        - name: Signing
           commands:
             - gpg --import /home/semaphore/public.key
             - gpg --import /home/semaphore/private.key
@@ -42,9 +42,9 @@ blocks:
       secrets:
         - name: Rusic_private.key
         - name: Rusic_public.key
-  - name: Generate SBOM
+  - name: Generate an SBOM
     dependencies:
-      - Signing
+      - Code Signing
     task:
       jobs:
         - name: SBOM
@@ -54,3 +54,14 @@ blocks:
             - pip install cyclonedx-bom
             - 'export PATH=$PATH:/home/semaphore/.local/bin'
             - cyclonedx-py requirements -o bom.json
+  - name: Run dependency scanning
+    dependencies:
+      - Generate an SBOM
+    task:
+      jobs:
+        - name: Check for vulnerabilities
+          commands:
+            - checkout
+            - cd 3-dependency-scanning
+            - pip install pip-audit
+            - pip-audit -r requirements.txt
