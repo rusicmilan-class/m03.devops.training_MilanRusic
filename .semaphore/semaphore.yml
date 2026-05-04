@@ -15,7 +15,7 @@ auto_cancel:
 blocks:
   - name: "\U0001F680 Deploy"
     dependencies:
-      - SAST testing
+      - DAST
     task:
       secrets:
         - name: Rusic_private.key
@@ -73,10 +73,21 @@ blocks:
       - Run dependency scanning
     task:
       jobs:
-        - name: SAST testing
+        - name: Run Bandit SAST detection tool
           commands:
             - checkout
             - cd 4-sast
             - pip install bandit
             - 'export PATH=$PATH:/home/semaphore/.local/bin'
             - bandit -r vulnerable_script.py
+  - name: DAST
+    dependencies:
+      - Code Signing
+      - Generate an SBOM
+      - Run dependency scanning
+      - SAST testing
+    task:
+      jobs:
+        - name: Run DAST against the application.
+          commands:
+            - SAST Scan
