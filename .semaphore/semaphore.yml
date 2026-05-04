@@ -25,7 +25,8 @@ blocks:
       - Signing
     task:
       secrets:
-        - name: aws-credentials
+        - name: Rusic_private.key
+        - name: Rusic_public.key
       jobs:
         - name: "\U0001F30D Deploy to Production"
           commands:
