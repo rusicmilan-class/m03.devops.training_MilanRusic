@@ -13,20 +13,6 @@ auto_cancel:
   queued:
     when: branch = 'main'
 blocks:
-  - name: "\U0001F680 Deploy"
-    dependencies:
-      - DAST
-    task:
-      secrets:
-        - name: Rusic_private.key
-        - name: Rusic_public.key
-      jobs:
-        - name: "\U0001F30D Deploy to Production"
-          commands:
-            - echo "Configuring deployment credentials..."
-            - echo "Updating container service..."
-            - echo "Rolling out new containers..."
-            - echo "Deployment completed successfully!"
   - name: Code Signing
     dependencies: []
     task:
