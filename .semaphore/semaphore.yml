@@ -1,9 +1,9 @@
 version: v1.0
-name: "\U0001F31F Fan-In/Fan-Out Pipeline"
+name: M03
 agent:
   machine:
-    type: a2-standard-4
-    os_image: macos-xcode16
+    type: f1-standard-4
+    os_image: ubuntu2404
   containers:
     - name: main
       image: 'registry.semaphoreci.com/node:20'
