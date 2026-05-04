@@ -64,4 +64,5 @@ blocks:
             - checkout
             - cd 3-dependency-scanning
             - pip install pip-audit
+            - 'export PATH=$PATH:/home/semaphore/.local/bin'
             - pip-audit -r requirements.txt
