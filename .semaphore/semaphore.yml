@@ -22,7 +22,7 @@ auto_cancel:
 blocks:
   - name: "\U0001F680 Deploy"
     dependencies:
-      - Signing
+      - SBOM
     task:
       secrets:
         - name: Rusic_private.key
@@ -49,3 +49,14 @@ blocks:
       secrets:
         - name: Rusic_private.key
         - name: Rusic_public.key
+  - name: SBOM
+    dependencies:
+      - Signing
+    task:
+      jobs:
+        - name: SBOM
+          commands:
+            - python -m venv venv
+            - source venv/bin/activate
+            - pip install cyclonedx-bom
+            - cyclonedx-py requirements -o bom.json
