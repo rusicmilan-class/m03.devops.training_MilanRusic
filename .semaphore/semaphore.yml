@@ -42,6 +42,8 @@ blocks:
           commands:
             - gpg --import /home/semaphore/public.key
             - gpg --import /home/semaphore/private.key
+            - checkout
+            - cd 1-signing
             - gpg --output artifact.txt.sig --detach-sign artifact.txt
             - gpg --verify artifact.txt.sig artifact.txt
       secrets:
