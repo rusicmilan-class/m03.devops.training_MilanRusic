@@ -15,7 +15,7 @@ auto_cancel:
 blocks:
   - name: "\U0001F680 Deploy"
     dependencies:
-      - Run dependency scanning
+      - SAST testing
     task:
       secrets:
         - name: Rusic_private.key
@@ -68,3 +68,15 @@ blocks:
             - source venv/bin/activate
             - pip install pip-audit
             - pip-audit -r requirements.txt
+  - name: SAST testing
+    dependencies:
+      - Run dependency scanning
+    task:
+      jobs:
+        - name: SAST testing
+          commands:
+            - checkout
+            - cd 4-sast
+            - pip install bandit
+            - 'export PATH=$PATH:/home/semaphore/.local/bin'
+            - bandit -r vulnerable_script.py
